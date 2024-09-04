@@ -44,7 +44,7 @@ import {
     y,
     Prototype,
     PackageName
-} from './parser.terms.js';
+} from './perl.grammar.terms.js';
 
 const isUpperCaseASCIILetter = (ch: number) => ch >= 65 && ch <= 90;
 const isLowerCaseASCIILetter = (ch: number) => ch >= 97 && ch <= 122;

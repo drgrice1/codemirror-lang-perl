@@ -29,7 +29,7 @@ const srcDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'src')
 
 const cleanDir = (dir) => {
     for (const file of fs.readdirSync(dir, { withFileTypes: true })) {
-        if (file.name === 'parser.js' || file.name === 'parser.terms.js') {
+        if (file.name === 'perl.parser.js' || file.name === 'perl.grammar.terms.js') {
             const fullPath = path.resolve(dir, file.name);
             console.log(`\x1b[34mRemoving ${fullPath}.\x1b[0m`);
             fs.unlinkSync(fullPath);
@@ -49,8 +49,8 @@ const processFile = async (file) => {
         try {
             // Only the terms are needed for the build. The parser is not.
             const { /* parser, */ terms } = buildParserFile(source, { fileName: file });
-            //fs.writeFileSync(path.resolve(srcDir, 'parser.js'), parser);
-            fs.writeFileSync(path.resolve(srcDir, 'parser.terms.js'), terms);
+            //fs.writeFileSync(path.resolve(srcDir, 'perl.parser.js'), parser);
+            fs.writeFileSync(path.resolve(srcDir, 'perl.grammar.terms.js'), terms);
         } catch (e) {
             console.log(`ERROR: ${e.message}`);
         }

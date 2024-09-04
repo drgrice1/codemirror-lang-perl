@@ -2,6 +2,5 @@
 /dist
 .vim
 vim-*-project
-src/parser.js
-src/parser.terms.js
+src/perl.grammar.terms.js
 /misc

@@ -6,7 +6,7 @@ import stylistic from '@stylistic/eslint-plugin';
 import mochaPlugin from 'eslint-plugin-mocha';
 
 export default [
-    { ignores: ['**/dist/*', 'src/parser.js', 'src/parser.terms.js'] },
+    { ignores: ['**/dist/*', 'src/perl.grammar.terms.js'] },
     { files: ['**/*.{js,mjs,cjs,ts}'] },
     pluginJs.configs.recommended,
     mochaPlugin.configs.flat.recommended,

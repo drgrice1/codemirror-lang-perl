@@ -11,10 +11,8 @@
     "scripts": {
         "format:prettier": "prettier --write .",
         "lint:eslint": "eslint . --fix",
-        "generate-parser": "node generate-parser.js",
-        "build:parser": "NODE_OPTIONS='--no-warnings=ExperimentalWarning' rollup -c",
-        "build": "node generate-parser.js && npm run build:parser",
-        "watch:terms": "node generate-parser.js -w",
+        "generate-terms": "node generate-terms.js",
+        "build": "NODE_OPTIONS='--no-warnings=ExperimentalWarning' rollup -c",
         "watch": "NODE_OPTIONS='--no-warnings=ExperimentalWarning' rollup -cw",
         "test": "mocha"
     },
