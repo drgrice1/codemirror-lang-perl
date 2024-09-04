@@ -13,18 +13,24 @@ export default [
     ...tseslint.configs.strictTypeChecked,
     ...tseslint.configs.stylisticTypeChecked,
     {
-        files: ['**/*.{js,mjs,cjs}'],
-        ...tseslint.configs.disableTypeChecked
-    },
-    eslintConfigPrettier,
-    {
         languageOptions: {
             globals: { ...globals.node, ...globals.browser },
             parserOptions: {
                 projectService: true,
                 tsconfigRootDir: import.meta.dirname
             }
-        },
+        }
+    },
+    {
+        files: ['**/*.{js,mjs,cjs}'],
+        ...tseslint.configs.disableTypeChecked
+    },
+    {
+        files: ['test/test.ts'],
+        rules: { '@typescript-eslint/unbound-method': 'off' }
+    },
+    eslintConfigPrettier,
+    {
         plugins: { '@stylistic': stylistic },
         rules: {
             // General syntax
