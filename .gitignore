@@ -1,6 +1,5 @@
 /node_modules
 /dist
 .vim
-vim-*-project
 src/perl.grammar.terms.js
 /misc

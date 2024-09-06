@@ -5,7 +5,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/drgrice1/codemirror-lang-perl.git"
+        "url": "git+https://github.com/drgrice1/codemirror-lang-perl.git"
     },
     "homepage": "https://github.com/drgrice1/codemirror-lang-perl",
     "scripts": {
