@@ -603,7 +603,7 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
     Identifier { letter (letter | @digit)* }
     Option { "-" letter (letter | @digit)* }
 
-    maybeBraces<content> { content | "{" content "}" }
+    maybeBraces<content> { content | "{" whitespace* content whitespace* "}" }
 
     ScalarVariable { "$" maybeBraces<Identifier> }
     ArrayVariable { "@" $[+-_!] | "@\\^" $[A-Z] | "@" $[a-zA-Z0-9_]+ }
