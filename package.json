@@ -11,7 +11,7 @@
     "homepage": "https://github.com/drgrice1/codemirror-lang-perl",
     "scripts": {
         "format": "prettier --write .",
-        "format:check": "prettier --ignore-path=.gitignore --check \"**/*.{js,css,scss,html}\"",
+        "format:check": "prettier --check .",
         "lint": "eslint . --fix",
         "lint:check": "eslint .",
         "generate-terms": "node generate-terms.js",
