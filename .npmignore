@@ -7,6 +7,7 @@ tsconfig.json
 .vim
 /misc
 show-tree.js
+generate-terms.js
 .editorconfig
 .prettierrc
 eslint.config.mjs
