@@ -35,7 +35,8 @@ export const perlLanguage = LRLanguage.define({
                     )
                         return { from: node.firstChild.nextSibling.from, to: node.firstChild.nextSibling.to };
                     return null;
-                }
+                },
+                EndDataStatement: (node) => (node.firstChild ? { from: node.firstChild.to, to: node.to } : null)
             }),
             styleTags({
                 'do continue else elsif for foreach goto if last next redo return unless until when while':
