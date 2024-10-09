@@ -1,6 +1,6 @@
 {
     "name": "codemirror-lang-perl",
-    "version": "0.1.4",
+    "version": "0.1.5-beta.1",
     "description": "Perl language support for CodeMirror",
     "author": "Glenn Rice <grice1@missouriwestern.edu>",
     "license": "MIT",
