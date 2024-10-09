@@ -392,7 +392,11 @@ builtinArrayFunction { (kw<"grep"> | kw<"map"> | kw<"join"> | kw<"sort"> | kw<"u
 
 scope { kw<"our"> | kw<"state"> | kw<"my"> | kw<"local"> }
 
-semicolon { ";" | automaticSemicolon }
+// This makes it so that a heredoc body is placed inside the ExpressionStatement containing the HeredocInitializer that
+// starts it.  This is important because when a partial parse occurs this ensures the partial parse goes back far enough
+// to see the HeredocInitializer and correctly parses the heredoc body.
+@skip {} { StatementEnd { ";" (InterpolatedHeredocBody | UninterpolatedHeredocBody)* statementEnd } }
+semicolon { StatementEnd | automaticSemicolon }
 
 @skip {} {
     StringDoubleQuoted { '"' interpolationContent* '"' }
@@ -517,7 +521,7 @@ commaSep1<content> { !atLeastOne content (commaOperator content?)* }
 maybeParens<content> { !noParens content | "(" !parens content ")" }
 
 @context contextTracker from "./tokens.js"
-@external tokens semicolon from "./tokens" { automaticSemicolon }
+@external tokens semicolon from "./tokens" { automaticSemicolon, statementEnd }
 @external tokens unrestrictedIdentifier from "./tokens" { UnrestrictedIdentifier }
 @external tokens specialScalarVariable from "./tokens" { SpecialScalarVariable }
 @external tokens builtinOperator from "./tokens" { NamedUnaryOperator, ListOperator }

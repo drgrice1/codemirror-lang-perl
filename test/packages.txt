@@ -17,28 +17,29 @@ use base qw(Base::Package);
 ==>
 
 Program(
-    UseNoStatement(use, PackageName(Identifier), ";"),
-    UseNoStatement(no, PackageName(Identifier), ";"),
-    UseNoStatement(use, PackageName(Identifier, "::", Identifier), ";"),
+    UseNoStatement(use, PackageName(Identifier), StatementEnd(";")),
+    UseNoStatement(no, PackageName(Identifier), StatementEnd(";")),
+    UseNoStatement(use, PackageName(Identifier, "::", Identifier), StatementEnd(";")),
     UseNoStatement(
         use,
         PackageName(Identifier, "::", Identifier),
         Arguments(QWList(qw, QWListContent(QuoteLikeStartDelimiter, QWElement, QWElement, QuoteLikeEndDelimiter))),
-        ";"
+        StatementEnd(";")
     ),
     UseNoStatement(
         use,
         PackageName(Identifier, "::", Identifier),
         Arguments(StringSingleQuoted, Comma, Option),
-    ";"),
-    UseConstantStatement(use, constant, Constant(Identifier), FatComma, StringSingleQuoted),
+        StatementEnd(";")
+    ),
+    UseConstantStatement(use, constant, Constant(Identifier), FatComma, StringSingleQuoted, StatementEnd(";")),
     UseNoIfStatement(
         use,
         if,
         BinaryExpression(SpecialScalarVariable, CompareOp, Float),
         Comma,
         StringDoubleQuoted(InterpolatedStringContent),
-        ";"
+        StatementEnd(";")
     ),
     UseNoIfStatement(
         use,
@@ -48,7 +49,7 @@ Program(
         PackageName(Identifier),
         FatComma,
         Arguments(QWList(qw, QWListContent(QuoteLikeStartDelimiter, QWElement, QuoteLikeEndDelimiter))),
-        ";"
+        StatementEnd(";")
     ),
     UseNoStatement(
         use,
@@ -60,20 +61,20 @@ Program(
             HashRef("{", Pair(Identifier, FatComma, StringSingleQuoted), "}"),
             ")"
         ),
-        ";"
+        StatementEnd(";")
     ),
-    UseNoVersion(use, Version, ";"),
-    UseNoVersion(use, Version, ";"),
+    UseNoVersion(use, Version, StatementEnd(";")),
+    UseNoVersion(use, Version, StatementEnd(";")),
     UseParentOrBaseStatement(
         use,
         parent,
         QWList(qw, QWListContent(QuoteLikeStartDelimiter, QWElement, QuoteLikeEndDelimiter)),
-        ";"
+        StatementEnd(";")
     ),
     UseParentOrBaseStatement(
         use,
         base,
         QWList(qw, QWListContent(QuoteLikeStartDelimiter, QWElement, QuoteLikeEndDelimiter)),
-        ";"
+        StatementEnd(";")
     )
 )

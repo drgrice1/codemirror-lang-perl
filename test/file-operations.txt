@@ -34,7 +34,7 @@ Program(
         Arguments(
             BinaryExpression(FileTest(FileTestOp, ScalarVariable), LogicOp, FileTest(FileTestOp, ScalarVariable))
         ),
-        ";"
+        StatementEnd(";")
     ),
     SingleLineStatement(
         Integer,
@@ -42,30 +42,30 @@ Program(
         Arguments(
             BinaryExpression(FileTest(FileTestOp, ScalarVariable), LogicOp, FileTest(FileTestOp, ScalarVariable))
         ),
-        ";"
+        StatementEnd(";")
     ),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";"),
-    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), ";")
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";")),
+    SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";"))
 )
 
 # file io operators
@@ -83,7 +83,7 @@ my $input = <<>>;
 Program(
     ExpressionStatement(
         Assignment(VariableDeclaration(my, ScalarVariable), "=", IOOperator(IOOperatorStart, STDIN, IOOperatorEnd)),
-        ";"
+        StatementEnd(";")
     ),
     ExpressionStatement(
         Assignment(
@@ -91,7 +91,7 @@ Program(
             "=",
             IOOperator(IOOperatorStart, Identifier, IOOperatorEnd)
         ),
-        ";"
+        StatementEnd(";")
     ),
     ExpressionStatement(
         Assignment(
@@ -99,19 +99,19 @@ Program(
             "=",
             IOOperator(IOOperatorStart, ScalarVariable, IOOperatorEnd)
         ),
-        ";"
+        StatementEnd(";")
     ),
     ExpressionStatement(
         Assignment(VariableDeclaration(my, ArrayVariable), "=", IOOperator(IOOperatorStart, Glob, IOOperatorEnd)),
-        ";"
+        StatementEnd(";")
     ),
     ExpressionStatement(
         Assignment(VariableDeclaration(my, ArrayVariable), "=", IOOperator(IOOperatorStart, Glob, IOOperatorEnd)),
-        ";"
+        StatementEnd(";")
     ),
     ExpressionStatement(
         Assignment(VariableDeclaration(my, ScalarVariable), "=", IOOperator(IOOperatorStart, IOOperatorEnd)),
-        ";"
+        StatementEnd(";")
     ),
     ExpressionStatement(
         Assignment(
@@ -119,6 +119,6 @@ Program(
             "=",
             IOOperator(IOOperatorStart, ReadonlySTDIN, IOOperatorEnd)
         ),
-        ";"
+        StatementEnd(";")
     )
 )
