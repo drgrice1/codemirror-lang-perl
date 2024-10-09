@@ -1,5 +1,4 @@
 export declare const automaticSemicolon: number,
-    automaticSemicolon: number,
     statementEnd: number,
     UnrestrictedIdentifier: number,
     FileTestOp: number,
