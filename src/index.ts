@@ -18,7 +18,8 @@ export const perlLanguage = LRLanguage.define({
             indentNodeProp.add({
                 IfStatement: continuedIndent({ except: /^\s*({|else\b|elsif\b)/ }),
                 Block: delimitedIndent({ closing: '}' }),
-                String: () => null,
+                'StringSingleQuoted StringQQuoted StringDoubleQuoted StringQqQuoted QWList': () => null,
+                'StatementEnd InterpolatedHeredocBody UninterpolatedHeredocBody': () => null,
                 Statement: continuedIndent()
             }),
             foldNodeProp.add({
