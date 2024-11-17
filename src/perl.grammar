@@ -399,7 +399,7 @@ semicolon { StatementEnd | automaticSemicolon }
 @skip {} {
     StringDoubleQuoted { '"' interpolationContent* '"' }
     BacktickQuoted { "`" interpolationContent* "`" }
-    StringQQuoted { kw<"q"> injectedComments? QuoteLikeStartDelimiter StringContent QuoteLikeEndDelimiter }
+    StringQQuoted { kw<"q"> injectedComments? QuoteLikeStartDelimiter StringContent* QuoteLikeEndDelimiter }
     StringQqQuoted { kw<"qq"> injectedComments? QuoteLikeStartDelimiter interpolationContent* QuoteLikeEndDelimiter }
     CommandQxQuoted {
         kw<"qx"> injectedComments? QuoteLikeStartDelimiter (StringContent | interpolationContent*) QuoteLikeEndDelimiter
