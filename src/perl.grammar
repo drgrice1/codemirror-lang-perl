@@ -41,7 +41,6 @@
     op,
     list,
     listContents,
-    scalarDeref @right,
     prototype,
     signature,
     named,
@@ -51,7 +50,6 @@
     packageVariable,
     packageName,
     constant,
-    heredocString,
     callExpressionName,
 
     loopControl,
@@ -146,12 +144,7 @@ expression[@isGroup=Expression] {
     string |
     Integer |
     Float |
-    SpecialLiteral {
-        kw<"__FILE__"> |
-        kw<"__LINE__"> |
-        kw<"__PACKAGE__"> |
-        kw<"__SUB__">
-    } |
+    SpecialLiteral { kw<"__FILE__"> | kw<"__LINE__"> | kw<"__PACKAGE__"> | kw<"__SUB__"> } |
     Pair |
     listType |
     ArrayLength { "$#" (Identifier | ScalarVariable | "{" expression "}") } |
