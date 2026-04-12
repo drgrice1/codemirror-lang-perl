@@ -388,16 +388,26 @@ const peekLCWord = (input: InputStream): [string, number] => {
     return [word, nextChar];
 };
 
+const fatCommaAhead = (input: InputStream, startPos = 0) => {
+    let offset = startPos;
+    while (isWhitespace(input.peek(offset))) ++offset;
+    if (input.peek(offset) === 61 /* = */ && input.peek(offset + 1) === 62 /* > */) {
+        return true;
+    }
+    return false;
+};
+
 export const builtinOperator = new ExternalTokenizer((input, stack) => {
     if (stack.canShift(NamedUnaryOperator)) {
         const [word, nextChar] = peekLCWord(input);
-        if (namedUnaryOperators.includes(word) && !isIdentifierChar(nextChar))
+        if (namedUnaryOperators.includes(word) && !isIdentifierChar(nextChar) && !fatCommaAhead(input, word.length))
             input.acceptToken(NamedUnaryOperator, word.length);
     }
 
     if (stack.canShift(ListOperator)) {
         const [word, nextChar] = peekLCWord(input);
-        if (listOperators.includes(word) && !isIdentifierChar(nextChar)) input.acceptToken(ListOperator, word.length);
+        if (listOperators.includes(word) && !isIdentifierChar(nextChar) && !fatCommaAhead(input, word.length))
+            input.acceptToken(ListOperator, word.length);
     }
 });
 
