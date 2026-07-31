@@ -252,3 +252,29 @@ Program(
         StatementEnd(";")
     )
 )
+
+# modulus with no space before its right operand
+
+my $x = $n%4;
+my $y = 5%2;
+
+==>
+
+Program(
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            BinaryExpression(ScalarVariable, "%", Integer)
+        ),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            BinaryExpression(Integer, "%", Integer)
+        ),
+        StatementEnd(";")
+    )
+)
