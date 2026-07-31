@@ -552,8 +552,13 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
 
     exponent { $[eE] $[+-]? @digit+ separatedDigits }
 
+    // The fraction takes at least one digit, so that the first dot of a range
+    // stays with the range: `1..10` is otherwise read as the float `1.`
+    // followed by `.10`, which is where every numeric range failed. Perl does
+    // accept a bare `1.`, and that is the cost here; a token rule cannot see
+    // the second dot, and ranges are written far more often.
     Float {
-        @digit+ separatedDigits ("." @digit* separatedDigits exponent? | exponent) |
+        @digit+ separatedDigits ("." @digit+ separatedDigits exponent? | exponent) |
         "." @digit+ separatedDigits exponent?
     }
 
