@@ -170,6 +170,18 @@ Program(
     )
 )
 
+# hexadecimal escapes with the digits 8 and 9
+
+"\x37\x38\x39";
+"\x{263A}";
+
+==>
+
+Program(
+    ExpressionStatement(StringDoubleQuoted(EscapeSequence, EscapeSequence, EscapeSequence), StatementEnd(";")),
+    ExpressionStatement(StringDoubleQuoted(EscapeSequence), StatementEnd(";"))
+)
+
 # backtick quoted commands
 
 `echo "value is $var"`;

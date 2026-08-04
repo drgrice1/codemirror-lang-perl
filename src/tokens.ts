@@ -50,7 +50,7 @@ import {
 const isUpperCaseASCIILetter = (ch: number) => ch >= 65 && ch <= 90;
 const isLowerCaseASCIILetter = (ch: number) => ch >= 97 && ch <= 122;
 const isASCIILetter = (ch: number) => isLowerCaseASCIILetter(ch) || isUpperCaseASCIILetter(ch);
-const isDigit = (ch: number) => ch >= 48 && ch <= 55;
+const isDigit = (ch: number) => ch >= 48 && ch <= 57;
 
 const isIdentifierChar = (ch: number) => ch == 95 /* _ */ || isASCIILetter(ch) || isDigit(ch);
 const isVariableStartChar = (ch: number) => ch == 95 /* _ */ || isASCIILetter(ch);
@@ -90,7 +90,7 @@ export const isSpecialVariableChar = (ch: number, arrayType = false) =>
         : (ch >= 33 && ch != 35 && ch <= 64) || ch == 91 || ch == 92 || ch == 93 || ch == 96 || ch == 126;
 
 /* 0-9, a-f, A-F */
-const isHex = (ch: number) => (ch >= 48 && ch <= 55) || (ch >= 97 && ch <= 102) || (ch >= 65 && ch <= 70);
+const isHex = (ch: number) => (ch >= 48 && ch <= 57) || (ch >= 97 && ch <= 102) || (ch >= 65 && ch <= 70);
 
 // ' ', \t, \n, \r
 const isWhitespace = (ch: number) => ch == 32 || ch == 9 || ch == 10 || ch == 13;

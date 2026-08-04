@@ -101,3 +101,29 @@ Program(
         StatementEnd(";")
     )
 )
+
+# a name may have an 8 or a 9 in it
+
+my $x = length8();
+my $y = ref9($z);
+
+==>
+
+Program(
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            CallExpression(FunctionName(Identifier), ParenthesizedArguments("(", ")"))
+        ),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            CallExpression(FunctionName(Identifier), ParenthesizedArguments("(", ScalarVariable, ")"))
+        ),
+        StatementEnd(";")
+    )
+)
