@@ -34,6 +34,7 @@ import {
     PodContent,
     PodCut,
     endDataBlock,
+    Float,
     m,
     q,
     qq,
@@ -44,7 +45,8 @@ import {
     tr,
     y,
     Prototype,
-    PackageName
+    PackageName,
+    Version
 } from './perl.grammar.terms.js';
 
 const isUpperCaseASCIILetter = (ch: number) => ch >= 65 && ch <= 90;
@@ -849,4 +851,58 @@ export const endData = new ExternalTokenizer((input, stack) => {
         while (input.advance() >= 0);
         input.acceptToken(endDataBlock);
     }
+});
+
+const isDecimalDigit = (ch: number) => ch >= 48 && ch <= 57;
+
+// A run of digits with the underscores Perl allows inside it: `@digit+ ("_" @digit+)*`.
+// Returns the position it stopped at, which is the one it started at if there were no digits.
+const scanDigits = (input: InputStream, start: number) => {
+    let pos = start;
+    while (isDecimalDigit(input.peek(pos))) ++pos;
+    if (pos == start) return start;
+    while (input.peek(pos) == 95 /* _ */ && isDecimalDigit(input.peek(pos + 1))) {
+        while (isDecimalDigit(input.peek(++pos)));
+    }
+    return pos;
+};
+
+const scanExponent = (input: InputStream, start: number) => {
+    if (input.peek(start) != 101 /* e */ && input.peek(start) != 69 /* E */) return start;
+    let pos = start + 1;
+    if (input.peek(pos) == 43 /* + */ || input.peek(pos) == 45 /* - */) ++pos;
+    const end = scanDigits(input, pos);
+    // `1eq` is not an exponent, and `$x=1 eq $y` needs the `1` back.
+    return end == pos ? start : end;
+};
+
+// Perl takes a decimal point only when a second dot does not follow it, so that
+// `3..5` is the range and not the float `3.` beside `.5`.  Perl's own lexer
+// does this with one character of lookahead in scan_num, and a token rule has
+// none, which is why the whole of Float is here rather than in the grammar.
+// Integer stays there: a number with neither a point nor an exponent is not
+// this tokenizer's to take.
+export const number = new ExternalTokenizer((input, stack) => {
+    // A Version is `$[0-9.]+` and the grammar prefers it to a Float wherever
+    // one is allowed.  `use POSIX 1.02;` is that, and is left alone here.
+    if (!stack.canShift(Float) || stack.canShift(Version)) return;
+
+    let pos = scanDigits(input, 0);
+    let isFloat = false;
+
+    if (input.peek(pos) == 46 /* . */ && input.peek(pos + 1) != 46 /* . */) {
+        const fraction = scanDigits(input, pos + 1);
+        // A dot with digits on neither side of it is the concatenation operator.
+        if (fraction == pos + 1 && pos == 0) return;
+        pos = fraction;
+        isFloat = true;
+    } else if (pos == 0) return;
+
+    const withExponent = scanExponent(input, pos);
+    if (withExponent > pos) {
+        pos = withExponent;
+        isFloat = true;
+    }
+
+    if (isFloat) input.acceptToken(Float, pos);
 });

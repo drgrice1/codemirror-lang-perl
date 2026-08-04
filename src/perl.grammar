@@ -541,6 +541,10 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
 @external tokens regex from "./tokens" { patternMatchStart, RegexOptions, regexEnd }
 @external tokens pod from "./tokens" { PodDirective, PodContent, PodCut }
 @external tokens endData from "./tokens" { endDataBlock }
+// A float is read in the tokenizer because its decimal point takes a character
+// of lookahead: the point belongs to the number only when a second dot does not
+// follow it, which is what leaves the range in `3..5` alone.
+@external tokens number from "./tokens" { Float }
 
 @tokens {
     whitespace { $[ \t\n\r] }
@@ -549,13 +553,6 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
     oct { $[0-7] }
 
     separatedDigits { ("_" @digit+)* }
-
-    exponent { $[eE] $[+-]? @digit+ separatedDigits }
-
-    Float {
-        @digit+ separatedDigits ("." @digit* separatedDigits exponent? | exponent) |
-        "." @digit+ separatedDigits exponent?
-    }
 
     Integer {
         @digit+ separatedDigits |
@@ -614,7 +611,6 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
         ModuleName,
         StringSingleQuoted,
         Version,
-        Float,
         Integer,
         RefOp<"\\">,
         Identifier,
