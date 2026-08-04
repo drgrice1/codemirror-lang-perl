@@ -541,6 +541,10 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
 @external tokens regex from "./tokens" { patternMatchStart, RegexOptions, regexEnd }
 @external tokens pod from "./tokens" { PodDirective, PodContent, PodCut }
 @external tokens endData from "./tokens" { endDataBlock }
+// A float is read in the tokenizer because its decimal point takes a character
+// of lookahead: the point belongs to the number only when a second dot does not
+// follow it, which is what leaves the range in `3..5` alone.
+@external tokens number from "./tokens" { Float }
 
 @tokens {
     whitespace { $[ \t\n\r] }
@@ -549,18 +553,6 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
     oct { $[0-7] }
 
     separatedDigits { ("_" @digit+)* }
-
-    exponent { $[eE] $[+-]? @digit+ separatedDigits }
-
-    // The fraction takes at least one digit, so that the first dot of a range
-    // stays with the range: `1..10` is otherwise read as the float `1.`
-    // followed by `.10`, which is where every numeric range failed. Perl does
-    // accept a bare `1.`, and that is the cost here; a token rule cannot see
-    // the second dot, and ranges are written far more often.
-    Float {
-        @digit+ separatedDigits ("." @digit+ separatedDigits exponent? | exponent) |
-        "." @digit+ separatedDigits exponent?
-    }
 
     Integer {
         @digit+ separatedDigits |
@@ -621,7 +613,6 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
         ModuleName,
         StringSingleQuoted,
         Version,
-        Float,
         Integer,
         RefOp<"\\">,
         Identifier,

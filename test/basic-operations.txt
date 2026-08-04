@@ -208,13 +208,17 @@ Program(
     ExpressionStatement(BinaryExpression(BinaryExpression(Integer, BitOp, Integer), BitOp, Integer), StatementEnd(";"))
 )
 
-# range operator against a trailing decimal point
+# numbers against the range operator
 
 my @a = (1..10);
 my @b = 1..$n;
 my @c = (-15..16);
 my $d = 1.5;
 my $e = 1.5e10;
+my $f = 1.;
+my $g = 1.e5;
+my $h = .5;
+my $i = 1_000.000_1;
 
 ==>
 
@@ -228,11 +232,7 @@ Program(
         StatementEnd(";")
     ),
     ExpressionStatement(
-        Assignment(
-            VariableDeclaration(my, ArrayVariable),
-            "=",
-            BinaryExpression(Integer, RangeOp, ScalarVariable)
-        ),
+        Assignment(VariableDeclaration(my, ArrayVariable), "=", BinaryExpression(Integer, RangeOp, ScalarVariable)),
         StatementEnd(";")
     ),
     ExpressionStatement(
@@ -243,14 +243,12 @@ Program(
         ),
         StatementEnd(";")
     ),
-    ExpressionStatement(
-        Assignment(VariableDeclaration(my, ScalarVariable), "=", Float),
-        StatementEnd(";")
-    ),
-    ExpressionStatement(
-        Assignment(VariableDeclaration(my, ScalarVariable), "=", Float),
-        StatementEnd(";")
-    )
+    ExpressionStatement(Assignment(VariableDeclaration(my, ScalarVariable), "=", Float), StatementEnd(";")),
+    ExpressionStatement(Assignment(VariableDeclaration(my, ScalarVariable), "=", Float), StatementEnd(";")),
+    ExpressionStatement(Assignment(VariableDeclaration(my, ScalarVariable), "=", Float), StatementEnd(";")),
+    ExpressionStatement(Assignment(VariableDeclaration(my, ScalarVariable), "=", Float), StatementEnd(";")),
+    ExpressionStatement(Assignment(VariableDeclaration(my, ScalarVariable), "=", Float), StatementEnd(";")),
+    ExpressionStatement(Assignment(VariableDeclaration(my, ScalarVariable), "=", Float), StatementEnd(";"))
 )
 
 # modulus with no space before its right operand
