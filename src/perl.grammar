@@ -451,7 +451,7 @@ semicolon { StatementEnd | automaticSemicolon }
     InterpolatedHeredocBody { interpolatedHeredocStart interpolationContent* HeredocEndIdentifier }
 
     // The afterInterpolation, packageNamePart, and afterPackageName tokens are invisible markers used to signal
-    // (via canShift) that the tokenzier shouldn't consume things that the grammar should tokenize.
+    // (via canShift) that the tokenizer shouldn't consume things that the grammar should tokenize.
     interpolationContent {
         InterpolatedStringContent |
         EscapeSequence |

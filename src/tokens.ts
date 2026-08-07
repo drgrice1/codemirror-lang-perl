@@ -558,10 +558,10 @@ const scanEscape = (input: InputStream) => {
         return size;
     }
 
-    // Restricted range hexidecimal character
+    // Restricted range hexadecimal character
     if (after == 120 /* x */ && isHex(input.peek(2))) return isHex(input.peek(3)) ? 4 : 3;
 
-    // Hexidecimal character
+    // Hexadecimal character
     if (after == 120 /* x */ && input.peek(2) == 123 /* { */) {
         // FIXME: There could be optional blanks at the beginning and end inside the braces.
         for (let size = 3; ; ++size) {
