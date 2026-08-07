@@ -52,7 +52,7 @@ import {
 const isUpperCaseASCIILetter = (ch: number) => ch >= 65 && ch <= 90;
 const isLowerCaseASCIILetter = (ch: number) => ch >= 97 && ch <= 122;
 const isASCIILetter = (ch: number) => isLowerCaseASCIILetter(ch) || isUpperCaseASCIILetter(ch);
-const isDigit = (ch: number) => ch >= 48 && ch <= 55;
+const isDigit = (ch: number) => ch >= 48 && ch <= 57;
 
 const isIdentifierChar = (ch: number) => ch == 95 /* _ */ || isASCIILetter(ch) || isDigit(ch);
 const isVariableStartChar = (ch: number) => ch == 95 /* _ */ || isASCIILetter(ch);
@@ -89,16 +89,10 @@ const isRegexOptionChar = (ch: number, regexType: number) => {
 export const isSpecialVariableChar = (ch: number, arrayType = false) =>
     arrayType
         ? ch == 36 || ch == 43 || ch == 45 || (ch >= 49 && ch <= 57)
-        : (ch >= 33 && ch != 35 && ch <= 64) ||
-          ch == 91 ||
-          ch == 92 ||
-          ch == 93 ||
-          ch == 96 ||
-          ch == 124 /* | */ ||
-          ch == 126;
+        : (ch >= 33 && ch != 35 && ch <= 64) || ch == 91 || ch == 92 || ch == 93 || ch == 96 || ch == 124 || ch == 126;
 
 /* 0-9, a-f, A-F */
-const isHex = (ch: number) => (ch >= 48 && ch <= 55) || (ch >= 97 && ch <= 102) || (ch >= 65 && ch <= 70);
+const isHex = (ch: number) => isDigit(ch) || (ch >= 97 && ch <= 102) || (ch >= 65 && ch <= 70);
 
 // ' ', \t, \n, \r
 const isWhitespace = (ch: number) => ch == 32 || ch == 9 || ch == 10 || ch == 13;
@@ -859,16 +853,15 @@ export const endData = new ExternalTokenizer((input, stack) => {
     }
 });
 
-const isDecimalDigit = (ch: number) => ch >= 48 && ch <= 57;
-
-// A run of digits with the underscores Perl allows inside it: `@digit+ ("_" @digit+)*`.
-// Returns the position it stopped at, which is the one it started at if there were no digits.
+// Scan to the end of a sequence of digits beginning at start. Underscores are allowed in the sequence where Perl allows
+// them.  Returns the position at the end of the sequence, which is the position started at if there were no digits at
+// the start position.
 const scanDigits = (input: InputStream, start: number) => {
     let pos = start;
-    while (isDecimalDigit(input.peek(pos))) ++pos;
+    while (isDigit(input.peek(pos))) ++pos;
     if (pos == start) return start;
-    while (input.peek(pos) == 95 /* _ */ && isDecimalDigit(input.peek(pos + 1))) {
-        while (isDecimalDigit(input.peek(++pos)));
+    while (input.peek(pos) == 95 /* _ */ && isDigit(input.peek(pos + 1))) {
+        while (isDigit(input.peek(++pos)));
     }
     return pos;
 };
@@ -878,19 +871,12 @@ const scanExponent = (input: InputStream, start: number) => {
     let pos = start + 1;
     if (input.peek(pos) == 43 /* + */ || input.peek(pos) == 45 /* - */) ++pos;
     const end = scanDigits(input, pos);
-    // `1eq` is not an exponent, and `$x=1 eq $y` needs the `1` back.
     return end == pos ? start : end;
 };
 
-// Perl takes a decimal point only when a second dot does not follow it, so that
-// `3..5` is the range and not the float `3.` beside `.5`.  Perl's own lexer
-// does this with one character of lookahead in scan_num, and a token rule has
-// none, which is why the whole of Float is here rather than in the grammar.
-// Integer stays there: a number with neither a point nor an exponent is not
-// this tokenizer's to take.
+// This tokenizer distinguishes a decimal point in a number from the first period in a range operator.
 export const number = new ExternalTokenizer((input, stack) => {
-    // A Version is `$[0-9.]+` and the grammar prefers it to a Float wherever
-    // one is allowed.  `use POSIX 1.02;` is that, and is left alone here.
+    // A Version is preferred to a Float wherever one is allowed.
     if (!stack.canShift(Float) || stack.canShift(Version)) return;
 
     let pos = scanDigits(input, 0);
@@ -904,9 +890,9 @@ export const number = new ExternalTokenizer((input, stack) => {
         isFloat = true;
     } else if (pos == 0) return;
 
-    const withExponent = scanExponent(input, pos);
-    if (withExponent > pos) {
-        pos = withExponent;
+    const exponentEnd = scanExponent(input, pos);
+    if (exponentEnd > pos) {
+        pos = exponentEnd;
         isFloat = true;
     }
 

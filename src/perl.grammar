@@ -541,9 +541,6 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
 @external tokens regex from "./tokens" { patternMatchStart, RegexOptions, regexEnd }
 @external tokens pod from "./tokens" { PodDirective, PodContent, PodCut }
 @external tokens endData from "./tokens" { endDataBlock }
-// A float is read in the tokenizer because its decimal point takes a character
-// of lookahead: the point belongs to the number only when a second dot does not
-// follow it, which is what leaves the range in `3..5` alone.
 @external tokens number from "./tokens" { Float }
 
 @tokens {
@@ -593,8 +590,6 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
     maybeBraces<content> { content | "{" whitespace* content whitespace* "}" }
 
     ScalarVariable { "$" maybeBraces<Identifier> }
-    // A name cannot open with a digit, and reading one that way costs the
-    // modulus its right operand: `$n%4` is an expression, never a hash.
     ArrayVariable { "@" $[+-_!] | "@\\^" $[A-Z] | "@" $[a-zA-Z_] $[a-zA-Z0-9_]* }
     HashVariable { "%" $[!+-] | "%\\^" $[A-Z] | "%" $[a-zA-Z_] $[a-zA-Z0-9_]* }
     TypeGlob { "*" maybeBraces<Identifier> ("::" maybeBraces<Identifier>)* }
