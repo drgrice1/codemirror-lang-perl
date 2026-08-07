@@ -3,7 +3,7 @@
 my $scalar = 3;
 my @array = (1, 2);
 my %hash = (a => 3, b => 2);
-my ($var1, $var2) = (1, 2);
+my ($var1, $var2, $var3, $var4, $var5, $var6, $var7, $var8, $var9) = (1, 2, 3, 4, 5, 6, 7, 8, 9);
 
 ==>
 
@@ -23,9 +23,50 @@ Program(
     ),
     ExpressionStatement(
         Assignment(
-            VariableDeclaration(my, "(", ScalarVariable, Comma, ScalarVariable, ")"),
+            VariableDeclaration(
+                my,
+                "(",
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                Comma,
+                ScalarVariable,
+                ")"
+            ),
             "=",
-            List("(", Integer, Comma, Integer, ")")
+            List(
+                "(",
+                Integer,
+                Comma,
+                Integer,
+                Comma,
+                Integer,
+                Comma,
+                Integer,
+                Comma,
+                Integer,
+                Comma,
+                Integer,
+                Comma,
+                Integer,
+                Comma,
+                Integer,
+                Comma,
+                Integer,
+                ")"
+            )
         ),
         StatementEnd(";")
     )
