@@ -117,7 +117,7 @@ statement[@isGroup=Statement] {
     ForStatement1 {
         Label?
         (kw<"for"> | kw<"foreach">)
-        ( "(" expression semicolon expression semicolon expression ")" | "(" semicolon semicolon ")")
+        ("(" expression? semicolon expression? semicolon expression? ")")
         Block
     } |
     ForStatement2 {
@@ -214,7 +214,7 @@ expression[@isGroup=Expression] {
         (kw<"fork"> | kw<"getpid"> | kw<"time"> | kw<"times"> | kw<"wait"> | kw<"wantarray">) ("(" ")")?
     } |
     NamedUnaryExpression { NamedUnaryOperator !namedUnary maybeParens<expression>? } |
-    ListOperatorExpression { (ListOperator | builtinArrayFunction) (ParenthesizedArguments | Arguments) } |
+    ListOperatorExpression { (ListOperator | builtinArrayFunction) (ParenthesizedArguments | Arguments)? } |
     CallExpression {
         FunctionName { "&"? !callExpressionName (PackageName | !bareword Identifier ~identifier) ~methodName }
         (ParenthesizedArguments | Arguments)
@@ -261,7 +261,7 @@ expression[@isGroup=Expression] {
         Block
         commaSep1<maybeParens<expression>>
     } |
-    FileTest { FileTestOp !namedUnary expression } |
+    FileTest { FileTestOp (!namedUnary expression)? } |
     IOOperator |
     EvalExpression { Eval !namedUnary (Block | maybeParens<expression>?) } |
     DoExpression { kw<"do"> !namedUnary (Block | maybeParens<expression>?) } |
@@ -433,7 +433,7 @@ semicolon { StatementEnd | automaticSemicolon }
         QuoteLikeStartDelimiter
         StringContent
         quoteLikeMiddle
-        StringContent
+        StringContent?
         QuoteLikeEndDelimiter
         RegexOptions?
         regexEnd

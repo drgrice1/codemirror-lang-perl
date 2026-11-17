@@ -68,6 +68,20 @@ Program(
     SingleLineStatement(Integer, if, Arguments(FileTest(FileTestOp, ScalarVariable)), StatementEnd(";"))
 )
 
+# file test operation with no argument
+
+if (-d) { 1 }
+
+==>
+
+Program(
+    IfStatement(
+        if,
+        ParenthesizedArguments("(", FileTest(FileTestOp), ")"),
+        Block("{", ExpressionStatement(Integer), "}")
+    )
+)
+
 # file io operators
 
 my $data = <STDIN>;

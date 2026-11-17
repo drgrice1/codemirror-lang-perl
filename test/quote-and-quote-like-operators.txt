@@ -781,6 +781,8 @@ y # comment at beginning end of line
     # comment at middle on next line
     {b}cdsr;
 
+tr/a//;
+
 ==>
 
 Program(
@@ -837,6 +839,16 @@ Program(
             StringContent,
             QuoteLikeEndDelimiter,
             RegexOptions
+        ),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        TransliterationTrOrY(
+            tr,
+            QuoteLikeStartDelimiter,
+            StringContent,
+            QuoteLikeSeparatorDelimiter,
+            QuoteLikeEndDelimiter
         ),
         StatementEnd(";")
     )

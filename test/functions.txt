@@ -571,3 +571,22 @@ Program(
         )
     )
 )
+
+# list operators with no arguments
+
+while (<STDIN>) { chomp; }
+my @ids = split;
+
+==>
+
+Program(
+    WhileStatement(
+        while,
+        ParenthesizedArguments("(", IOOperator(IOOperatorStart, STDIN, IOOperatorEnd), ")"),
+        Block("{", ExpressionStatement(ListOperatorExpression(ListOperator), StatementEnd(";")), "}")
+    ),
+    ExpressionStatement(
+        Assignment(VariableDeclaration(my, ArrayVariable), "=", ListOperatorExpression(ListOperator)),
+        StatementEnd(";")
+    )    
+)
