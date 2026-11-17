@@ -406,7 +406,7 @@ semicolon { StatementEnd | automaticSemicolon }
         RegexOptions?
         regexEnd
     }
-    PatternMatch { patternMatchStart "/" interpolationContent* "/" RegexOptions? regexEnd }
+    PatternMatch { patternMatchStart interpolationContent* "/" RegexOptions? regexEnd }
     RegexQr {
         kw<"qr">
         injectedComments?
@@ -538,7 +538,7 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
     StringContent
     QWElement
 }
-@external tokens regex from "./tokens" { patternMatchStart, RegexOptions, regexEnd }
+@external tokens regex from "./tokens" { patternMatchStart[@name="/"], RegexOptions, regexEnd }
 @external tokens pod from "./tokens" { PodDirective, PodContent, PodCut }
 @external tokens endData from "./tokens" { endDataBlock }
 @external tokens number from "./tokens" { Float }
