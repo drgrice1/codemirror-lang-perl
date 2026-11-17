@@ -269,6 +269,46 @@ Program(
     )
 )
 
+# repetition operator with no space before its right operand
+
+my $s = "\0"x256;
+my $t = $u x3;
+my @a = (1)x3;
+my $v = $h{x1} + x2();
+
+==>
+
+Program(
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            BinaryExpression(StringDoubleQuoted(EscapeSequence), x, Integer)
+        ),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        Assignment(VariableDeclaration(my, ScalarVariable), "=", BinaryExpression(ScalarVariable, x, Integer)),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        Assignment(VariableDeclaration(my, ArrayVariable), "=", BinaryExpression(List("(", Integer, ")"), x, Integer)),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            BinaryExpression(
+                HashAccessVariable(ScalarVariable, "{", Identifier, "}"),
+                ArithOp,
+                CallExpression(FunctionName(Identifier), ParenthesizedArguments("(", ")"))
+            )
+        ),
+        StatementEnd(";")
+    )
+)
+
 # for loops
 
 for my $var (@list) { print $var }

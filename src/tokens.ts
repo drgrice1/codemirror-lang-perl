@@ -28,6 +28,7 @@ import {
     StringContent,
     QWElement,
     patternMatchStart,
+    repetitionOperator,
     RegexOptions,
     regexEnd,
     PodDirective,
@@ -917,4 +918,14 @@ export const number = new ExternalTokenizer((input, stack) => {
     }
 
     if (isFloat) input.acceptToken(Float, pos);
+});
+
+export const repetition = new ExternalTokenizer((input, stack) => {
+    if (
+        input.next == 120 /* x */ &&
+        isDigit(input.peek(1)) &&
+        stack.canShift(repetitionOperator) &&
+        !precededByListOperator(input)
+    )
+        input.acceptToken(repetitionOperator, 1);
 });

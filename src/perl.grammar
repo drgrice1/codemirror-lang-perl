@@ -183,7 +183,7 @@ expression[@isGroup=Expression] {
         expression !exponent ArithOp<"**"> expression |
         expression !binding BindingOp<"=~" | "!~"> expression |
         !op expression !mult "%" expression |
-        expression !mult ("*" | "/" | kw<"x">) expression |
+        expression !mult ("*" | "/" | kw<"x"> | repetitionOperator) expression |
         expression !plus (ArithOp<"+"> | ArithOp<"-">) expression |
         expression !plus ConcatOp<"."> expression |
         expression !shift ("<<" | BitOp<">>">) expression |
@@ -542,6 +542,7 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
 @external tokens pod from "./tokens" { PodDirective, PodContent, PodCut }
 @external tokens endData from "./tokens" { endDataBlock }
 @external tokens number from "./tokens" { Float }
+@external tokens repetition from "./tokens" { repetitionOperator[@name=x] }
 
 @tokens {
     whitespace { $[ \t\n\r] }
