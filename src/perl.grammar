@@ -610,7 +610,6 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
         StringSingleQuoted,
         Version,
         Integer,
-        RefOp<"\\">,
         Identifier,
         Option,
         ScalarVariable,
@@ -630,6 +629,8 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
         "/",
         "["
     }
+
+    @precedence { Prototype, RefOp<"\\">, "\\" }
 }
 
 @detectDelim

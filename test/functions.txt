@@ -590,3 +590,39 @@ Program(
         StatementEnd(";")
     )    
 )
+
+# prototypes that start with a backslash
+
+sub f (\%;@) { 1 }
+sub g (\[$@%]) { 1 }
+my $h = sub (\@) { 1 };
+my $r = \$x;
+
+==>
+
+Program(
+    FunctionDefinition(
+        sub,
+        FunctionName(Identifier),
+        FunctionPrototype("(", Prototype, ")"),
+        Block("{", ExpressionStatement(Integer), "}")
+    ),
+    FunctionDefinition(
+        sub,
+        FunctionName(Identifier),
+        FunctionPrototype("(", Prototype, ")"),
+        Block("{", ExpressionStatement(Integer), "}")
+    ),
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            AnonymousFunction(sub, FunctionPrototype("(", Prototype, ")"), Block("{", ExpressionStatement(Integer), "}"))
+        ),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        Assignment(VariableDeclaration(my, ScalarVariable), "=", UnaryExpression(RefOp, ScalarVariable)),
+        StatementEnd(";")
+    )
+)
