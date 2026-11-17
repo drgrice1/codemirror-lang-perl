@@ -626,3 +626,89 @@ Program(
         StatementEnd(";")
     )
 )
+
+# signatures with unnamed placeholder parameters
+
+sub f ($, $y, $=, $ = 5, $ //= 6, $ ||= 7, @) { 1 }
+sub g ($x, %) { 1 }
+sub h ($) { 1 }
+
+==>
+
+Program(
+    FunctionDefinition(
+        sub,
+        FunctionName(Identifier),
+        FunctionSignature(
+            ParenthesizedArguments(
+                "(",
+                UnnamedParameter,
+                Comma,
+                ScalarVariable,
+                Comma,
+                UnnamedParameter("="),
+                Comma,
+                UnnamedParameter("=", Integer),
+                Comma,
+                UnnamedParameter(UpdateOp, Integer),
+                Comma,
+                UnnamedParameter(UpdateOp, Integer),
+                Comma,
+                UnnamedParameter,
+                ")"
+            )
+        ),
+        Block("{", ExpressionStatement(Integer), "}")
+    ),
+    FunctionDefinition(
+        sub,
+        FunctionName(Identifier),
+        FunctionSignature(ParenthesizedArguments("(", ScalarVariable, Comma, UnnamedParameter, ")")),
+        Block("{", ExpressionStatement(Integer), "}")
+    ),
+    FunctionDefinition(
+        sub,
+        FunctionName(Identifier),
+        FunctionSignature(ParenthesizedArguments("(", UnnamedParameter, ")")),
+        Block("{", ExpressionStatement(Integer), "}")
+    )
+)
+
+# attributes followed by a signature
+
+sub f :lvalue ($x) { 1 }
+sub g :Path('/foo') :Args(1) ($x) { 1 }
+my $h = sub :lvalue ($x, $) { 1 };
+
+==>
+
+Program(
+    FunctionDefinition(
+        sub,
+        FunctionName(Identifier),
+        FunctionAttribute(":", Identifier),
+        FunctionSignature(ParenthesizedArguments("(", ScalarVariable, ")")),
+        Block("{", ExpressionStatement(Integer), "}")
+    ),
+    FunctionDefinition(
+        sub,
+        FunctionName(Identifier),
+        FunctionAttribute(":", Identifier, FunctionSignature(ParenthesizedArguments("(", StringSingleQuoted, ")"))),
+        FunctionAttribute(":", Identifier, FunctionSignature(ParenthesizedArguments("(", Integer, ")"))),
+        FunctionSignature(ParenthesizedArguments("(", ScalarVariable, ")")),
+        Block("{", ExpressionStatement(Integer), "}")
+    ),
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            AnonymousFunction(
+                sub,
+                FunctionAttribute(":", Identifier),
+                FunctionSignature(ParenthesizedArguments("(", ScalarVariable, Comma, UnnamedParameter, ")")),
+                Block("{", ExpressionStatement(Integer), "}")
+            )
+        ),
+        StatementEnd(";")
+    )
+)

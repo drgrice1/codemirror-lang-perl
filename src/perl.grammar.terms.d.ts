@@ -42,5 +42,7 @@ export declare const automaticSemicolon: number,
     tr: number,
     y: number,
     Prototype: number,
+    unnamedParameterMark: number,
+    attributeArgumentsStart: number,
     PackageName: number,
     Version: number;

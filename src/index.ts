@@ -50,7 +50,7 @@ export const perlLanguage = LRLanguage.define({
                 'unpack unshift values wait wantarray': t.function(t.keyword),
                 'BEGIN CHECK END INIT UNITCHECK': t.processingInstruction,
                 '__FILE__ __LINE__ __PACKAGE__ __SUB__': t.literal,
-                'ScalarVariable SpecialScalarVariable ArrayVariable HashVariable': t.variableName,
+                'ScalarVariable SpecialScalarVariable ArrayVariable HashVariable UnnamedParameter': t.variableName,
                 'ArrayLength/Identifier Prototype Constant/Identifier': t.variableName,
                 'PackageVariable/PackageVariableName/...': t.variableName,
                 'PackageName/Identifier PackageName/UnrestrictedIdentifier PackageName/ScalarVariable': t.namespace,

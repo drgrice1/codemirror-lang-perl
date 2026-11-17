@@ -46,6 +46,8 @@ import {
     tr,
     y,
     Prototype,
+    unnamedParameterMark,
+    attributeArgumentsStart,
     PackageName,
     Version
 } from './perl.grammar.terms.js';
@@ -345,6 +347,33 @@ export const unrestrictedIdentifier = new ExternalTokenizer((input, stack) => {
         if (input.next < 0 || isASCIILetter(input.next) || input.next == 95 /* _ */) return;
         while (input.next >= 0 && isIdentifierChar(input.next)) input.advance();
         input.acceptToken(UnrestrictedIdentifier);
+    }
+});
+
+export const signature = new ExternalTokenizer((input, stack) => {
+    if (stack.canShift(attributeArgumentsStart) && input.next == 40 /* ( */ && isIdentifierChar(input.peek(-1))) {
+        input.acceptToken(attributeArgumentsStart, 0);
+        return;
+    }
+
+    if (
+        stack.canShift(unnamedParameterMark) &&
+        (input.next == 36 /* $ */ || input.next == 64 /* @ */ || input.next == 37) /* % */
+    ) {
+        // This will consider the `($)` in something like `sub f ($)` which could be either a signature or a
+        // prototype to be a signature. Prototypes are bad practice. Don't use them.
+        let pos = 1;
+        while (isWhitespace(input.peek(pos))) ++pos;
+        const next = input.peek(pos);
+        if (
+            next == 44 /* , */ ||
+            next == 41 /* ) */ ||
+            (input.next == 36 /* $ */ &&
+                (next == 61 /* = */ ||
+                    (next == 47 /* / */ && input.peek(pos + 1) == 47 /* / */ && input.peek(pos + 2) == 61) /* = */ ||
+                    (next == 124 /* | */ && input.peek(pos + 1) == 124 /* | */ && input.peek(pos + 2) == 61))) /* = */
+        )
+            input.acceptToken(unnamedParameterMark, 1);
     }
 });
 

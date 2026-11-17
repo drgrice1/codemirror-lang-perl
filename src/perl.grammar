@@ -285,10 +285,12 @@ PackageName { !packageName Identifier ("::" !packageName (UnrestrictedIdentifier
 Label { Identifier ":" }
 Constant { !constant Identifier }
 
-FunctionSignature { !signature ParenthesizedArguments }
+FunctionSignature { !signature signatureArguments }
+signatureArguments[@name=ParenthesizedArguments] { "(" !parens commaSep<expression | UnnamedParameter> ")" }
+UnnamedParameter { unnamedParameterMark (("=" | UpdateOp) expression?)? }
 FunctionPrototype { !prototype "(" Prototype? ")" }
 FunctionPrototypeAttribute { ":" kw<"prototype"> FunctionPrototype }
-FunctionAttribute { ":" (Identifier FunctionSignature?) }
+FunctionAttribute { ":" Identifier (attributeArgumentsStart FunctionSignature)? }
 
 ParenthesizedArguments { "(" !parens commaSep<expression> ")" }
 Arguments { !noParens commaSep1<expression> }
@@ -509,6 +511,7 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
 @context contextTracker from "./tokens.js"
 @external tokens semicolon from "./tokens" { automaticSemicolon, statementEnd }
 @external tokens unrestrictedIdentifier from "./tokens" { UnrestrictedIdentifier }
+@external tokens signature from "./tokens" { unnamedParameterMark, attributeArgumentsStart }
 @external tokens specialScalarVariable from "./tokens" { SpecialScalarVariable }
 @external tokens builtinOperator from "./tokens" { NamedUnaryOperator, ListOperator }
 @external tokens fileIO from "./tokens" {
