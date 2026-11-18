@@ -93,6 +93,43 @@ Program(
     RequireStatement(require, ModuleName, StatementEnd(";"))
 )
 
+# fully qualified constants used as expressions
+
+my @a = @{Foo::Bar::LIST};
+my $r = Foo->new(Foo::Bar::CONST, 1);
+
+==>
+
+Program(
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ArrayVariable),
+            "=",
+            ArrayDereference(Constant(Identifier, "::", Identifier, "::", Identifier))
+        ),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        Assignment(
+            VariableDeclaration(my, ScalarVariable),
+            "=",
+            MethodInvocation(
+                PackageName(Identifier),
+                ArrowOperator,
+                FunctionName(Identifier),
+                ParenthesizedArguments(
+                    "(",
+                    Constant(Identifier, "::", Identifier, "::", Identifier),
+                    Comma,
+                    Integer,
+                    ")"
+                )
+            )
+        ),
+        StatementEnd(";")
+    )
+)
+
 # a module version is a version and not a float
 
 use POSIX 1.02 qw(floor);

@@ -283,7 +283,7 @@ expression[@isGroup=Expression] {
 
 PackageName { !packageName Identifier ("::" !packageName (UnrestrictedIdentifier | Identifier))* }
 Label { Identifier ":" }
-Constant { !constant Identifier }
+Constant { !constant Identifier ("::" !packageName (UnrestrictedIdentifier | Identifier))* }
 
 FunctionSignature { !signature signatureArguments }
 signatureArguments[@name=ParenthesizedArguments] { "(" !parens commaSep<expression | UnnamedParameter> ")" }
