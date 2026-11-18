@@ -83,7 +83,7 @@ statement[@isGroup=Statement] {
     UseNoSubsStatement { (kw<"use"> | kw<"no">) kw<"subs"> list semicolon } |
     UseNoFeatureStatement { (kw<"use"> | kw<"no">) kw<"feature"> (list | string)? semicolon } |
     UseNoVersion { (kw<"use"> | kw<"no">) Version semicolon } |
-    RequireStatement { kw<"require"> PackageName semicolon } |
+    RequireStatement { kw<"require"> (PackageName | ModuleName) semicolon } |
     UseConstantStatement {
         kw<"use">
         kw<"constant">

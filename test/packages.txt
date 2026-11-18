@@ -79,6 +79,20 @@ Program(
     )
 )
 
+# require statements
+
+require Foo::Bar;
+require "Foo/Bar.pm";
+require 'Foo/Bar.pm';
+
+==>
+
+Program(
+    RequireStatement(require, PackageName(Identifier, "::", Identifier), StatementEnd(";")),
+    RequireStatement(require, ModuleName, StatementEnd(";")),
+    RequireStatement(require, ModuleName, StatementEnd(";"))
+)
+
 # a module version is a version and not a float
 
 use POSIX 1.02 qw(floor);
