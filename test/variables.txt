@@ -154,6 +154,29 @@ Program(
     ExpressionStatement(FunctionDereference("&", ScalarVariable), StatementEnd(";"))
 )
 
+# calling a dereferenced function
+
+&$orig();
+&$orig(1, 2);
+&{ $orig }();
+
+==>
+
+Program(
+    ExpressionStatement(
+        FunctionDereference("&", ScalarVariable, ParenthesizedArguments("(", ")")),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        FunctionDereference("&", ScalarVariable, ParenthesizedArguments("(", Integer, Comma, Integer, ")")),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(
+        FunctionDereference("&", "{", ScalarVariable, "}", ParenthesizedArguments("(", ")")),
+        StatementEnd(";")
+    )
+)
+
 # hash and array references
 
 my $var = \@array;

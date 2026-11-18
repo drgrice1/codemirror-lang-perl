@@ -172,7 +172,7 @@ expression[@isGroup=Expression] {
     ScalarDereference |
     ArrayDereference |
     HashDereference |
-    FunctionDereference { "&" (ScalarDereference | ScalarVariable | "{" expression "}") } |
+    FunctionDereference { "&" (ScalarDereference | ScalarVariable | "{" expression "}") ParenthesizedArguments? } |
     TypeGlobDereference { "*" (ScalarDereference | ScalarVariable | "{" expression "}") } |
     Constant |
     VariableDeclaration { scope ("(" commaSep<maybeParens<variable | TypeGlob>> ")" | variable | TypeGlob) } |
