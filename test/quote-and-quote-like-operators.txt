@@ -1043,3 +1043,23 @@ Program(
         StatementEnd(";")
     )
 )
+
+# pattern matches following an output function
+
+print /foo/ ? 1 : 0;
+say /foo/;
+print $x / 2;
+
+==>
+
+Program(
+    ExpressionStatement(
+        OutputFunction(
+            print,
+            TernaryExpression(PatternMatch("/", InterpolatedStringContent, "/"), LogicOp, Integer, ":", Integer)
+        ),
+        StatementEnd(";")
+    ),
+    ExpressionStatement(OutputFunction(say, PatternMatch("/", InterpolatedStringContent, "/")), StatementEnd(";")),
+    ExpressionStatement(OutputFunction(print, BinaryExpression(ScalarVariable, "/", Integer)), StatementEnd(";"))
+)
