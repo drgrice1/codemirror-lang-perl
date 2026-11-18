@@ -355,7 +355,7 @@ ArrayRef { "[" commaSep<expression> "]" }
 HashRef { ArithOp<"+">? "{" commaSep<expression> "}" }
 
 arrayAccessor { "[" commaSep<expression> "]" }
-hashAccessor { "{" ((!bareword Identifier) | expression) "}" }
+hashAccessor { "{" ((!bareword (Identifier | bareHashKey)) | expression) "}" }
 
 ScalarDereference { "$" (ScalarDereference | ScalarVariable | "{" expression "}") }
 ArrayDereference { "@" (ScalarDereference | ScalarVariable | "{" expression "}") }
@@ -512,6 +512,7 @@ maybeParens<content> { !noParens content | "(" !parens content ")" }
 
 @context contextTracker from "./tokens.js"
 @external tokens semicolon from "./tokens" { automaticSemicolon, statementEnd }
+@external tokens hashKey from "./tokens" { bareHashKey[@name=Identifier] }
 @external tokens unrestrictedIdentifier from "./tokens" { UnrestrictedIdentifier }
 @external tokens signature from "./tokens" { unnamedParameterMark, attributeArgumentsStart }
 @external tokens specialScalarVariable from "./tokens" { SpecialScalarVariable }
