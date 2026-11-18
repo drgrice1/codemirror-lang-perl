@@ -402,6 +402,13 @@ export const specialScalarVariable = new ExternalTokenizer((input, stack) => {
         }
         if (!isSpecialVariableChar(first)) return;
         if (first == 36 /* $ */ && isIdentifierChar(second)) return;
+
+        // `$::` is the main package sigil, not the `$:` special variable followed by a bare `:`.
+        if (first == 58 /* : */ && second == 58 /* : */) {
+            input.acceptToken(SpecialScalarVariable, 3);
+            return;
+        }
+
         input.acceptToken(SpecialScalarVariable, 2);
         return;
     }
